@@ -1,22 +1,18 @@
 import sys
 import random
-from turtle import width
 from PySide6 import QtCore, QtWidgets, QtGui
+
 
 class MyWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        self.numbers = ['0' ,'1', '2', '3', '4', '5', '6', '7', '8', '9']
         self.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 
              'h', 'i', 'j', 'k', 'l', 'm', 'n',
              'o', 'p', 'q', 'r', 's', 't', 'u', 
              'v', 'w', 'x', 'y', 'z']
         self.especialchars = ['#', '@', '$', '%']
-        
         self.setWindowTitle('Password Generator')
-        self.button = QtWidgets.QPushButton("Generate a password")
-        
-                                  
+        self.button = QtWidgets.QPushButton("Generate a password")                       
         self.btn = QtWidgets.QPushButton('Copy to clipboard', clicked=self.copy_to_clipboard)
         self.lbl = QtWidgets.QLabel(alignment=QtCore.Qt.AlignCenter)
         self.text = QtWidgets.QLabel(alignment=QtCore.Qt.AlignCenter)
@@ -31,28 +27,31 @@ class MyWidget(QtWidgets.QWidget):
         
         
     def copy_to_clipboard(self):
-        cb = QtWidgets.QApplication.clipboard()
-        cb.clear(mode=cb.Clipboard)
-        cb.setText(self.text.text(),  mode=cb.Clipboard)
-        self.lbl.setText('Content was copied')
-        
+        clip = QtWidgets.QApplication.clipboard()
+        clip.clear(mode=clip.Clipboard)
+        clip.setText(self.text.text(),  mode=clip.Clipboard)
+        self.show_dialog('Content was copied')
+      
         
     def magic(self):
-        self.text.setText(random.choice(self.numbers)+
-                          random.choice(self.numbers)+
-                          random.choice(self.numbers)+
-                          random.choice(self.numbers)+
-                          random.choice(self.numbers)+
+        self.text.setText(str(random.randrange(1, 10))+
+                          str(random.randrange(1, 10))+
+                          str(random.randrange(1, 10))+
+                          str(random.randrange(1, 10))+
+                          str(random.randrange(1, 10))+
                           random.choice(self.especialchars)+
                           random.choice(self.letters)+
                           random.choice(self.letters)+
                           random.choice(self.letters)+
                           random.choice(self.letters))
+      
         
+    def show_dialog(self, text):
+        QtWidgets.QMessageBox.about(self, 'DIALOG', text)
+      
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-
     widget = MyWidget()
     widget.resize(300, 200)
     widget.show()
